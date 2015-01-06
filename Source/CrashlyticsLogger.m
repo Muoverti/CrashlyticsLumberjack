@@ -13,13 +13,17 @@ OBJC_EXTERN void CLSLog(NSString *format, ...) NS_FORMAT_FUNCTION(1,2);
 
 -(void) logMessage:(DDLogMessage *)logMessage
 {
+    if(logMessage->_level != DDLogLevelError) {
+        return;
+    }
+    
     NSString *logMsg = logMessage->_message;
     
     if (_logFormatter)
     {
         logMsg = [_logFormatter formatLogMessage:logMessage];
     }
-    
+
     if (logMsg)
     {
         CLSLog(@"%@",logMsg);
